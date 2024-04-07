@@ -3,10 +3,7 @@
 # Fancy Pattern Generator
 
 A webapp that creates random texture patterns, which you can save as images.
-It is based on [pixi.js](https://www.pixijs.com/).
-
-**How it works:**
-A few different shapes get repeated and overlayed with different blend modes.
+It uses [pixi.js](https://www.pixijs.com/) to create few different shapes that get repeated and overlayed with different blend modes.
 All options get choosen randomly.
 
 ## Usage
