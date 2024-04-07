@@ -1,7 +1,7 @@
 import { createPattern, canvas } from "./canvas";
 
 document.addEventListener("keypress", (event) => handleKeypress(event.code));
-console.log("hui");
+document.addEventListener("pointerdown", () => createPattern());
 createPattern();
 
 //*******************************************************************************************
