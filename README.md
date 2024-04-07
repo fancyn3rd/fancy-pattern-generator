@@ -14,18 +14,13 @@ All options get choosen randomly.
 Open index.html in the dist folder.
 
 Hotkeys:
-* G - Generate new pattern
-* S - Save pattern to disk
+
+- G - Generate new pattern
+- S - Save pattern to disk
 
 ## Development
 
-* `npm install`
-* `npm run start`
+- `npm install`
+- `npm run dev`
 
 You can change the pattern generation settings in config.js.
-
-### TODO
-
-* User Interface
-* More options: Pattern size etc.
-* New Modes
