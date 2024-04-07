@@ -3,9 +3,40 @@
   <head>
     <meta charset="utf-8" />
     <title>Fancy Pattern Generator</title>
-    <script charset="utf-8" type="javascript" src="index.js" ></script>
-    </head>
-    <body>
-      <canvas id="canvas" width="800" height="600"></canvas>
-    <script type="text/javascript" src="main.js"></script></body>
+    <style>
+      .container {
+        position: absolute;
+        padding: 1vw;
+        margin-top: 10px;
+        margin-left: 10px;
+        background: white;
+        border: solid black 3px;
+        border-radius: 10px;
+      }
+      .label {
+        margin: 0;
+        position: relative;
+        font-size: 2vw;
+        font-family: verdana;
+      }
+      .subtext {
+        font-size: 1vw;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/index-BK1VEmgW.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden">
+    <canvas id="canvas"></canvas>
+    <div class="container">
+      <p class="label">Keys: G - Genrate New | S - Save Image <br /></p>
+      <p class="label subtext">
+        Source:
+        <a
+          href="https://github.com/fancyn3rd/fancy-pattern-generator"
+          target="_blank"
+          >Github</a
+        >
+      </p>
+    </div>
+  </body>
 </html>
