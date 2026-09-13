@@ -18,7 +18,7 @@ canvas.getContext("webgl", {
 });
 
 const container = new PIXI.Container();
-const RNDShape = new PIXI.Graphics();
+let activeItems = [];
 
 const app = new PIXI.Application(CANVAS_WIDTH, CANVAS_HEIGHT, {
   antialias: true,
@@ -28,58 +28,73 @@ const app = new PIXI.Application(CANVAS_WIDTH, CANVAS_HEIGHT, {
 
 app.stage.addChild(container);
 document.body.appendChild(app.view);
-container.addChild(RNDShape);
 
 //*******************************************************************************************
 
 export function createPattern() {
   app.renderer.backgroundColor = colors[randomRange(0, colors.length)];
-  RNDShape.clear();
+
+  activeItems.forEach((item) => item.destroy());
+  activeItems = [];
+  container.removeChildren();
 
   const maxLoopDuration = randomRange(1, MAX_OVERDRAWS);
 
   for (let i = 0; i < maxLoopDuration; i++) {
-    initShape(RNDShape);
-    drawLoop(RNDShape);
+    const config = {};
+    initShape(config);
+    drawLoop(config);
   }
 }
 
-function initShape(shape) {
-  shape.posX = randomRange(5, 10);
-  shape.posY = randomRange(5, 10);
-  shape.sizeW = randomRange(10, 20);
-  shape.sizeH = randomRange(10, 20);
-  shape.distanceX = shape.sizeW * 3;
-  shape.distanceY = shape.sizeH * 2;
-  shape.type = shapeTypes[randomRange(0, shapeTypes.length)];
-  shape.lineStrength = randomRange(0, maxLineStrength);
-  shape.fillColor = colors[randomRange(0, colors.length)];
-  shape.blendMode =
+function initShape(config) {
+  config.posX = randomRange(5, 10);
+  config.posY = randomRange(5, 10);
+  config.sizeW = randomRange(10, 20);
+  config.sizeH = randomRange(10, 20);
+  config.distanceX = config.sizeW * 3;
+  config.distanceY = config.sizeH * 2;
+
+  config.type = shapeTypes[randomRange(0, shapeTypes.length)];
+  config.lineStrength = randomRange(0, maxLineStrength);
+  config.fillColor = colors[randomRange(0, colors.length)];
+  config.blendMode =
     PIXI.BLEND_MODES[blendModes[randomRange(1, blendModes.length)]];
 }
 
-function drawLoop(shape) {
+function drawLoop(config) {
   for (let y = 0; y <= maxLoop; y++) {
-    shape.beginFill(shape.fillColor, 1);
     for (let x = 0; x <= maxLoop; x++) {
-      shape.lineStyle(
-        shape.lineStrength,
-        colors[randomRange(0, colors.length)]
+      const item = new PIXI.Graphics();
+
+      item.beginFill(config.fillColor, 1);
+      item.lineStyle(
+        config.lineStrength,
+        colors[randomRange(0, colors.length)],
       );
-      draw(shape, y, x);
+
+      item["draw" + config.type](
+        -config.sizeW / 2,
+        -config.sizeH / 2,
+        config.sizeW,
+        config.sizeH,
+        config.sizeW,
+      );
+      item.endFill();
+
+      item.blendMode = config.blendMode;
+
+      item.x = config.posX + x * config.distanceX;
+      item.y = config.posY + y * config.distanceY;
+
+      item.rotation = Math.random() * Math.PI * 2;
+
+      item.spinSpeed = (Math.random() - 0.5) * 0.05;
+
+      container.addChild(item);
+      activeItems.push(item);
     }
   }
-  shape.endFill();
-}
-
-function draw(shape, countY, countX) {
-  shape["draw" + shape.type](
-    shape.posX + countX * shape.distanceX,
-    shape.posY + countY * shape.distanceY,
-    shape.sizeW,
-    shape.sizeH,
-    shape.sizeW
-  );
 }
 
 function randomRange(min, max) {
