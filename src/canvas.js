@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
-
 import {
+  doAnimate,
   colors,
   shapeTypes,
   blendModes,
@@ -28,6 +28,17 @@ const app = new PIXI.Application(CANVAS_WIDTH, CANVAS_HEIGHT, {
 
 app.stage.addChild(container);
 document.body.appendChild(app.view);
+
+// Start the global animation loop ticker
+app.ticker.add((delta) => {
+  if (doAnimate) {
+    for (let i = 0; i < activeItems.length; i++) {
+      const item = activeItems[i];
+      // item.spinSpeed was assigned during creation
+      item.rotation += item.spinSpeed * delta;
+    }
+  }
+});
 
 //*******************************************************************************************
 
